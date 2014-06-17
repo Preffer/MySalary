@@ -19,3 +19,8 @@ SOURCES += main.cpp\
 HEADERS  += mysalary.h
 
 FORMS    += mysalary.ui
+
+RESOURCES += \
+    resource.qrc
+
+RC_FILE = logo.rc

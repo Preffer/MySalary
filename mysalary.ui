@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>334</height>
+    <height>362</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MySalary</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resource.qrc">
+    <normaloff>:/logo.png</normaloff>:/logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_3">
@@ -143,296 +147,284 @@
        </layout>
       </widget>
       <widget class="QWidget" name="content">
-       <widget class="QTabWidget" name="tabWidget">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>481</width>
-          <height>241</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>4</number>
-        </property>
-        <widget class="QWidget" name="salary">
-         <attribute name="title">
-          <string>salary</string>
-         </attribute>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <widget class="QTableView" name="salaryView"/>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="bonus">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <attribute name="title">
-          <string>bonus</string>
-         </attribute>
-         <widget class="QTableView" name="bonusView">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>451</width>
-            <height>181</height>
-           </rect>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
+           <number>2</number>
           </property>
+          <widget class="QWidget" name="salary">
+           <attribute name="title">
+            <string>salary</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="0">
+             <widget class="QTableView" name="salaryView"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="bonus">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <attribute name="title">
+            <string>bonus</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_10">
+            <item row="0" column="0">
+             <widget class="QTableView" name="bonusView">
+              <property name="styleSheet">
+               <string notr="true">width: 100%</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="info">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <attribute name="title">
+            <string>info</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <item row="0" column="0">
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="0" column="0" rowspan="2">
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_5">
+                  <item>
+                   <widget class="QLabel" name="label_staffID">
+                    <property name="text">
+                     <string>staffID:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="staffID">
+                    <property name="text">
+                     <string>TextLabel</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_4">
+                  <item>
+                   <widget class="QLabel" name="label_name">
+                    <property name="text">
+                     <string>name:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="name">
+                    <property name="text">
+                     <string>TextLabel</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout">
+                  <item>
+                   <widget class="QLabel" name="label_grade">
+                    <property name="text">
+                     <string>grade:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="gradeName">
+                    <property name="text">
+                     <string>TextLabel</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_2">
+                  <item>
+                   <widget class="QLabel" name="label_loginName">
+                    <property name="text">
+                     <string>loginName:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="new_loginName"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <item>
+                   <widget class="QLabel" name="label_password_2">
+                    <property name="text">
+                     <string>password:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="new_password">
+                    <property name="echoMode">
+                     <enum>QLineEdit::Password</enum>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item row="0" column="1">
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QLabel" name="label_info">
+                  <property name="text">
+                   <string>info:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="new_info"/>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPushButton" name="infoCommitButton">
+                <property name="text">
+                 <string>Commit Info</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+           <zorder>layoutWidget</zorder>
+           <zorder>staffID</zorder>
+           <zorder>staffID</zorder>
+          </widget>
+          <widget class="QWidget" name="admin_grade">
+           <attribute name="title">
+            <string>admin_grade</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_6">
+            <item row="0" column="0" rowspan="6">
+             <widget class="QTableView" name="gradeView"/>
+            </item>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="grade_CommitButton">
+              <property name="text">
+               <string>Commit</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPushButton" name="grade_CancelButton">
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="grade_AddButton">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QPushButton" name="grade_DeleteButton">
+              <property name="text">
+               <string>Delete</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QRadioButton" name="grade_ASCButton">
+              <property name="text">
+               <string>ASC</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QRadioButton" name="grade_DESCButton">
+              <property name="text">
+               <string>DESC</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="admin_staff">
+           <attribute name="title">
+            <string>admin_staff</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_7">
+            <item row="0" column="0" rowspan="5" colspan="2">
+             <widget class="QTableView" name="staffView"/>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="staff_CommitButton">
+              <property name="text">
+               <string>Commit</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="staff_CancelButton">
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="staff_AddButton">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QPushButton" name="staff_DeleteButton">
+              <property name="text">
+               <string>Delete</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QRadioButton" name="staff_ASCButton">
+              <property name="text">
+               <string>ASC</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QComboBox" name="filter_comboBox"/>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="filter">
+              <property name="placeholderText">
+               <string>Keyword</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="QRadioButton" name="staff_DESCButton">
+              <property name="text">
+               <string>DESC</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
-        </widget>
-        <widget class="QWidget" name="info">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <attribute name="title">
-          <string>info</string>
-         </attribute>
-         <widget class="QWidget" name="">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>471</width>
-            <height>211</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_5">
-           <item row="0" column="0" rowspan="2">
-            <widget class="QLabel" name="label_staffID">
-             <property name="text">
-              <string>staffID:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1" rowspan="2">
-            <widget class="QLabel" name="staffID">
-             <property name="text">
-              <string>TextLabel</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="label_info">
-             <property name="text">
-              <string>info:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2" rowspan="3" colspan="2">
-            <widget class="QTextEdit" name="new_info"/>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_name">
-             <property name="text">
-              <string>name:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLabel" name="name">
-             <property name="text">
-              <string>TextLabel</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_grade">
-             <property name="text">
-              <string>grade:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLabel" name="gradeName">
-             <property name="text">
-              <string>TextLabel</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0" colspan="3">
-            <layout class="QVBoxLayout" name="verticalLayout">
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <widget class="QLabel" name="label_loginName">
-                 <property name="text">
-                  <string>loginName:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="new_loginName"/>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_3">
-               <item>
-                <widget class="QLabel" name="label_password_2">
-                 <property name="text">
-                  <string>password:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="new_password">
-                 <property name="echoMode">
-                  <enum>QLineEdit::Password</enum>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </item>
-           <item row="4" column="3">
-            <widget class="QPushButton" name="infoCommitButton">
-             <property name="text">
-              <string>Commit Info</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="admin_grade">
-         <attribute name="title">
-          <string>admin_grade</string>
-         </attribute>
-         <widget class="QWidget" name="layoutWidget">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>471</width>
-            <height>202</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_6">
-           <item row="0" column="0" rowspan="6">
-            <widget class="QTableView" name="gradeView"/>
-           </item>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="grade_CommitButton">
-             <property name="text">
-              <string>Commit</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="grade_CancelButton">
-             <property name="text">
-              <string>Cancel</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QPushButton" name="grade_AddButton">
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QPushButton" name="grade_DeleteButton">
-             <property name="text">
-              <string>Delete</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QRadioButton" name="grade_ASCButton">
-             <property name="text">
-              <string>ASC</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QRadioButton" name="grade_DESCButton">
-             <property name="text">
-              <string>DESC</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="admin_staff">
-         <attribute name="title">
-          <string>admin_staff</string>
-         </attribute>
-         <widget class="QWidget" name="">
-          <property name="geometry">
-           <rect>
-            <x>1</x>
-            <y>1</y>
-            <width>471</width>
-            <height>201</height>
-           </rect>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_7">
-           <item row="0" column="0" rowspan="5" colspan="2">
-            <widget class="QTableView" name="staffView"/>
-           </item>
-           <item row="0" column="2">
-            <widget class="QPushButton" name="staff_CommitButton">
-             <property name="text">
-              <string>Commit</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QPushButton" name="staff_CancelButton">
-             <property name="text">
-              <string>Cancel</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QPushButton" name="staff_AddButton">
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QPushButton" name="staff_DeleteButton">
-             <property name="text">
-              <string>Delete</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="2">
-            <widget class="QRadioButton" name="staff_ASCButton">
-             <property name="text">
-              <string>ASC</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QComboBox" name="filter_comboBox"/>
-           </item>
-           <item row="5" column="1">
-            <widget class="QLineEdit" name="filter">
-             <property name="placeholderText">
-              <string>Keyword</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="2">
-            <widget class="QRadioButton" name="staff_DESCButton">
-             <property name="text">
-              <string>DESC</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -468,8 +460,21 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
