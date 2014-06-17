@@ -180,6 +180,24 @@ void MySalary::on_tabWidget_currentChanged(int index)
 
         ui->admin_salary_dateEdit->setDate(QDate::currentDate());
         break;
+
+    case 7:
+        adminModel = new QSqlRelationalTableModel();
+        adminModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        adminModel->setTable("admin");
+        adminModel->setRelation(2, QSqlRelation("staff", "staffID", "name"));
+        adminModel->select();
+
+        ui->admin_View->setModel(adminModel);
+        ui->admin_View->setItemDelegate(new QSqlRelationalDelegate());
+
+        for(int i = 0; i < adminModel->columnCount(); i++){
+            admin_headers << adminModel->headerData(i, Qt::Horizontal).toString();
+        }
+
+        ui->admin_filter_comboBox->addItems(admin_headers);
+        //qDebug() << bonus_headers;
+        break;
     }
 }
 
@@ -407,13 +425,13 @@ void MySalary::on_admin_payButton_clicked()
         while(query.next()){
             map[query.value(0).toInt()] = query.value(1).toFloat();
         }
-        qDebug() << map;
+        //qDebug() << map;
         sql = "SELECT `staffID`, `effect` FROM `bonus` WHERE timestamp LIKE'" + date.toString("yyyy-MM") + "%'";
         query.exec(sql);
         while(query.next()){
             map[query.value(0).toInt()] += query.value(1).toFloat();
         }
-        qDebug() << map;
+        //qDebug() << map;
 
         query.prepare("INSERT INTO `salary`(`staffID`, `date`, `salary`) VALUES (:staffID, :date, :salary)");
         query.bindValue(":date", date.toString("yyyy-MM-dd"));
@@ -438,4 +456,61 @@ void MySalary::on_admin_payButton_clicked()
             QMessageBox::warning(this, "Failed", query.lastError().text());
         }
     }
+}
+
+void MySalary::on_admin_CommitButton_clicked()
+{
+    adminModel->database().transaction();
+    if (adminModel->submitAll()) {
+        adminModel->database().commit();
+    } else {
+        adminModel->database().rollback();
+        QMessageBox::warning( this, "Commit Error", adminModel->lastError().text());
+    }
+}
+
+void MySalary::on_admin_CancelButton_clicked()
+{
+    adminModel->revertAll();
+}
+
+void MySalary::on_admin_AddButton_clicked()
+{
+    int rowNum = adminModel->rowCount();
+    adminModel->insertRow(rowNum); //index of the new row is equal to the rowCount
+}
+
+void MySalary::on_admin_DeleteButton_clicked()
+{
+    int curRow = ui->admin_View->currentIndex().row();
+    adminModel->removeRow(curRow);
+    int confirm = QMessageBox::warning(this, "Delete Current Row", "Are you sure!!\nDelete current row?", QMessageBox::Yes,QMessageBox::No);
+    if(confirm == QMessageBox::No)
+    {
+        adminModel->revertAll();
+    }
+    else adminModel->submitAll();
+}
+
+void MySalary::on_admin_ASCButton_clicked()
+{
+    int flag = ui->admin_filter_comboBox->currentIndex();
+    adminModel->setSort(flag,Qt::AscendingOrder);
+    adminModel->select();
+}
+
+void MySalary::on_admin_DESCButton_clicked()
+{
+    int flag = ui->admin_filter_comboBox->currentIndex();
+    adminModel->setSort(flag,Qt::DescendingOrder);
+    adminModel->select();
+}
+
+void MySalary::on_admin_filter_editingFinished()
+{
+    QString keyword = ui->admin_filter->text();
+    QString filed = ui->admin_filter_comboBox->currentText();
+    //qDebug() << keyword;
+    adminModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
+    adminModel->select();
 }

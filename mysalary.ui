@@ -154,7 +154,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>6</number>
+           <number>7</number>
           </property>
           <widget class="QWidget" name="salary">
            <attribute name="title">
@@ -493,7 +493,7 @@
            <zorder>admin_bonus_View</zorder>
            <zorder>bonus_CancelButton</zorder>
           </widget>
-          <widget class="QWidget" name="tab">
+          <widget class="QWidget" name="admin_salary">
            <attribute name="title">
             <string>admin_salary</string>
            </attribute>
@@ -508,6 +508,68 @@
              <widget class="QPushButton" name="admin_payButton">
               <property name="text">
                <string>Pay!</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="admin_admin">
+           <attribute name="title">
+            <string>admin_admin</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_13">
+            <item row="0" column="0" rowspan="5" colspan="2">
+             <widget class="QTableView" name="admin_View"/>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="admin_CommitButton">
+              <property name="text">
+               <string>Commit</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="admin_CancelButton">
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="admin_AddButton">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QPushButton" name="admin_DeleteButton">
+              <property name="text">
+               <string>Delete</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QRadioButton" name="admin_ASCButton">
+              <property name="text">
+               <string>ASC</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QComboBox" name="admin_filter_comboBox"/>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="admin_filter">
+              <property name="placeholderText">
+               <string>Keyword</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="QRadioButton" name="admin_DESCButton">
+              <property name="text">
+               <string>DESC</string>
               </property>
              </widget>
             </item>

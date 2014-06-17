@@ -66,6 +66,20 @@ private slots:
 
     void on_admin_payButton_clicked();
 
+    void on_admin_CommitButton_clicked();
+
+    void on_admin_CancelButton_clicked();
+
+    void on_admin_AddButton_clicked();
+
+    void on_admin_DeleteButton_clicked();
+
+    void on_admin_ASCButton_clicked();
+
+    void on_admin_DESCButton_clicked();
+
+    void on_admin_filter_editingFinished();
+
 private:
     Ui::MySalary *ui;
     QSqlDatabase db;
@@ -77,8 +91,10 @@ private:
     QSqlTableModel *gradeModel;
     QSqlRelationalTableModel *staffModel;
     QSqlRelationalTableModel *bonusModel;
+    QSqlRelationalTableModel *adminModel;
     QStringList staff_headers;
     QStringList bonus_headers;
+    QStringList admin_headers;
 };
 
 #endif // MYSALARY_H
