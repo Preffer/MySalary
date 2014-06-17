@@ -46,6 +46,7 @@ void MySalary::on_loginButton_clicked()
                 QString encodedPass;
 
                 if(rawPass == ""){
+                    //hack here to allow new user login
                     encodedPass = rawPass;
                 } else{
                     encodedPass = QString(QCryptographicHash::hash(rawPass.toUtf8(),QCryptographicHash::Md5).toHex());
@@ -101,17 +102,22 @@ void MySalary::on_tabWidget_currentChanged(int index)
         break;
 
     case 2:
-        query.prepare("SELECT `info` FROM `staff` WHERE staffID = :staffID");
+        query.prepare("SELECT `staffID`, `name`, `info`, `gradeName`, `loginName`  FROM `staff` JOIN `grade` ON `staffID` = :staffID AND `grade`.`gradeID` = `staff`.`gradeID`");
         query.bindValue(":staffID", staffID);
 
         if(query.exec()){
             query.first();
-            QString rawPass = ui->password->text();
+            int index_staffID = query.record().indexOf("staffID");
+            int index_name = query.record().indexOf("name");
+            int index_gradeName = query.record().indexOf("gradeName");
             int index_info = query.record().indexOf("info");
-            QString info = query.value(index_info).toString();
+            int index_loginName = query.record().indexOf("loginName");
 
-            ui->new_info->setText(info);
-            ui->new_loginName->setText(loginName);
+            ui->staffID->setText(query.value(index_staffID).toString());
+            ui->name->setText(query.value(index_name).toString());
+            ui->gradeName->setText(query.value(index_gradeName).toString());
+            ui->new_info->setText(query.value(index_info).toString());
+            ui->new_loginName->setText(query.value(index_loginName).toString());
             //qDebug() << info;
         }else{
             qDebug() << query.lastError();
@@ -135,8 +141,16 @@ void MySalary::on_tabWidget_currentChanged(int index)
         staffModel->select();
 
         ui->staffView->setModel(staffModel);
-        //ui->tableView->hideColumn(0);
+        //ui->staffView->hideColumn(5);
         ui->staffView->setItemDelegate(new QSqlRelationalDelegate());
+
+        QStringList headers;
+        for(int i = 0; i < staffModel->columnCount(); i++){
+             headers << staffModel->headerData(i, Qt::Horizontal).toString();
+        }
+
+        ui->filter_comboBox->addItems(headers);
+        qDebug() << headers;
         break;
     }
 }
@@ -247,13 +261,15 @@ void MySalary::on_staff_DeleteButton_clicked()
 
 void MySalary::on_staff_ASCButton_clicked()
 {
-    staffModel->setSort(0,Qt::AscendingOrder);
+    int flag = ui->filter_comboBox->currentIndex();
+    staffModel->setSort(flag,Qt::AscendingOrder);
     staffModel->select();
 }
 
 void MySalary::on_staff_DESCButton_clicked()
 {
-    staffModel->setSort(0,Qt::DescendingOrder);
+    int flag = ui->filter_comboBox->currentIndex();
+    staffModel->setSort(flag,Qt::DescendingOrder);
     staffModel->select();
 }
 
