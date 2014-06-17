@@ -64,6 +64,8 @@ private slots:
 
     void on_bonus_filter_editingFinished();
 
+    void on_admin_payButton_clicked();
+
 private:
     Ui::MySalary *ui;
     QSqlDatabase db;

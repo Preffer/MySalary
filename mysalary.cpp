@@ -146,14 +146,14 @@ void MySalary::on_tabWidget_currentChanged(int index)
         ui->staffView->setItemDelegate(new QSqlRelationalDelegate());
 
         for(int i = 0; i < staffModel->columnCount(); i++){
-             staff_headers << staffModel->headerData(i, Qt::Horizontal).toString();
+            staff_headers << staffModel->headerData(i, Qt::Horizontal).toString();
         }
 
         ui->filter_comboBox->addItems(staff_headers);
         //qDebug() << staff_headers;
         break;
 
-     case 5:
+    case 5:
         bonusModel = new QSqlRelationalTableModel();
         bonusModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
         bonusModel->setTable("bonus");
@@ -164,11 +164,21 @@ void MySalary::on_tabWidget_currentChanged(int index)
         ui->admin_bonus_View->setItemDelegate(new QSqlRelationalDelegate());
 
         for(int i = 0; i < bonusModel->columnCount(); i++){
-             bonus_headers << bonusModel->headerData(i, Qt::Horizontal).toString();
+            bonus_headers << bonusModel->headerData(i, Qt::Horizontal).toString();
         }
 
         ui->bonus_filter_comboBox->addItems(bonus_headers);
         //qDebug() << bonus_headers;
+        break;
+
+    case 6:
+        query.prepare("SELECT `date`, SUM(salary) as sum FROM `salary` GROUP BY `date`");
+        query.exec();
+
+        model->setQuery(query);
+        ui->admin_salaryView->setModel(model);
+
+        ui->admin_salary_dateEdit->setDate(QDate::currentDate());
         break;
     }
 }
@@ -356,4 +366,76 @@ void MySalary::on_bonus_filter_editingFinished()
     //qDebug() << keyword;
     staffModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
     staffModel->select();
+}
+
+void MySalary::on_admin_payButton_clicked()
+{
+    QDate date = ui->admin_salary_dateEdit->date ();
+    //qDebug() << date.toString("yyyy-MM");
+    QVariant bonusCount, bonusSUM, commonCount, commonSUM, total;
+    QSqlQuery query;
+    QString sql;
+    sql = "SELECT COUNT(*) AS count, SUM(effect) AS sum FROM `bonus` WHERE timestamp LIKE'" + date.toString("yyyy-MM") + "%'";
+    if(query.exec(sql)){
+        query.first();
+        bonusCount = query.value(0).toDouble();
+        bonusSUM = query.value(1).toDouble();
+        //qDebug() << bonusSUM;
+    } else{
+        qDebug() << query.lastError();
+    }
+    sql = "SELECT COUNT(*) AS count, SUM(baseSalary) AS sum FROM `staff` JOIN `grade` ON `grade`.`gradeID` = `staff`.`gradeID`";
+    if(query.exec(sql)){
+        query.first();
+        commonCount = query.value(0).toDouble();
+        commonSUM = query.value(1).toDouble();
+        //qDebug() << commonSUM;
+    } else{
+        qDebug() << query.lastError();
+    }
+    total = bonusSUM.toDouble() + commonSUM.toDouble();
+    QString tip = "Salary statistic in " + date.toString("yyyy-MM") + "\n";
+    tip += bonusCount.toString() + " employees gain bonus with " + bonusSUM.toString() + " in total\n";
+    tip += commonCount.toString() + " employees gain salary with " + commonSUM.toString() + " in total\n";
+    tip += "To sum up, " + total.toString() + " to pay";
+    int confirm = QMessageBox::question(this, "Confirm Pay Salary", tip, QMessageBox::Yes,QMessageBox::No);
+    if(confirm == QMessageBox::Yes)
+    {
+        QMap<int, float> map;
+        sql = "SELECT `staffID`, `baseSalary` FROM `staff` JOIN `grade` ON `staff`.`gradeID` = `grade`.`gradeID`";
+        query.exec(sql);
+        while(query.next()){
+            map[query.value(0).toInt()] = query.value(1).toFloat();
+        }
+        qDebug() << map;
+        sql = "SELECT `staffID`, `effect` FROM `bonus` WHERE timestamp LIKE'" + date.toString("yyyy-MM") + "%'";
+        query.exec(sql);
+        while(query.next()){
+            map[query.value(0).toInt()] += query.value(1).toFloat();
+        }
+        qDebug() << map;
+
+        query.prepare("INSERT INTO `salary`(`staffID`, `date`, `salary`) VALUES (:staffID, :date, :salary)");
+        query.bindValue(":date", date.toString("yyyy-MM-dd"));
+
+        QMap<int, float>::const_iterator i = map.constBegin();
+
+        int tranStatus = 0;
+        db.transaction();
+        while (i != map.constEnd()) {
+            query.bindValue(":staffID", i.key());
+            query.bindValue(":salary", i.value());
+            if(!query.exec()){
+                tranStatus = 1;
+            }
+            ++i;
+        }
+        if(tranStatus == 0){
+            db.commit();
+            QMessageBox::information(this, "Success", "Confirm Pay Salary Success!");
+        }else{
+            db.rollback();
+            QMessageBox::warning(this, "Failed", query.lastError().text());
+        }
+    }
 }
