@@ -10,6 +10,7 @@ MySalary::MySalary(QWidget *parent) :
     ui(new Ui::MySalary)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 MySalary::~MySalary()
@@ -144,13 +145,30 @@ void MySalary::on_tabWidget_currentChanged(int index)
         //ui->staffView->hideColumn(5);
         ui->staffView->setItemDelegate(new QSqlRelationalDelegate());
 
-        QStringList headers;
         for(int i = 0; i < staffModel->columnCount(); i++){
-             headers << staffModel->headerData(i, Qt::Horizontal).toString();
+             staff_headers << staffModel->headerData(i, Qt::Horizontal).toString();
         }
 
-        ui->filter_comboBox->addItems(headers);
-        //qDebug() << headers;
+        ui->filter_comboBox->addItems(staff_headers);
+        //qDebug() << staff_headers;
+        break;
+
+     case 5:
+        bonusModel = new QSqlRelationalTableModel();
+        bonusModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        bonusModel->setTable("bonus");
+        bonusModel->setRelation(1, QSqlRelation("staff", "staffID", "name"));
+        bonusModel->select();
+
+        ui->admin_bonus_View->setModel(bonusModel);
+        ui->admin_bonus_View->setItemDelegate(new QSqlRelationalDelegate());
+
+        for(int i = 0; i < bonusModel->columnCount(); i++){
+             bonus_headers << bonusModel->headerData(i, Qt::Horizontal).toString();
+        }
+
+        ui->bonus_filter_comboBox->addItems(bonus_headers);
+        //qDebug() << bonus_headers;
         break;
     }
 }
@@ -278,6 +296,63 @@ void MySalary::on_filter_editingFinished()
 {
     QString keyword = ui->filter->text();
     QString filed = ui->filter_comboBox->currentText();
+    //qDebug() << keyword;
+    staffModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
+    staffModel->select();
+}
+
+void MySalary::on_bonus_CommitButton_clicked()
+{
+    bonusModel->database().transaction();
+    if (bonusModel->submitAll()) {
+        bonusModel->database().commit();
+    } else {
+        bonusModel->database().rollback();
+        QMessageBox::warning( this, "Commit Error", bonusModel->lastError().text());
+    }
+}
+
+void MySalary::on_bonus_CancelButton_clicked()
+{
+    bonusModel->revertAll();
+}
+
+void MySalary::on_bonus_AddButton_clicked()
+{
+    int rowNum = bonusModel->rowCount();
+    bonusModel->insertRow(rowNum); //index of the new row is equal to the rowCount
+}
+
+void MySalary::on_bonus_DeleteButton_clicked()
+{
+    int curRow = ui->staffView->currentIndex().row();
+    bonusModel->removeRow(curRow);
+    int confirm = QMessageBox::warning(this, "Delete Current Row", "Are you sure!!\nDelete current row?", QMessageBox::Yes,QMessageBox::No);
+    if(confirm == QMessageBox::No)
+    {
+        bonusModel->revertAll();
+    }
+    else bonusModel->submitAll();
+}
+
+void MySalary::on_bonus_ASCButton_clicked()
+{
+    int flag = ui->bonus_filter_comboBox->currentIndex();
+    bonusModel->setSort(flag,Qt::AscendingOrder);
+    bonusModel->select();
+}
+
+void MySalary::on_bonus_DESCButton_clicked()
+{
+    int flag = ui->bonus_filter_comboBox->currentIndex();
+    bonusModel->setSort(flag,Qt::DescendingOrder);
+    bonusModel->select();
+}
+
+void MySalary::on_bonus_filter_editingFinished()
+{
+    QString keyword = ui->bonus_filter->text();
+    QString filed = ui->bonus_filter_comboBox->currentText();
     //qDebug() << keyword;
     staffModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
     staffModel->select();

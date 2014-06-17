@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>362</height>
+    <height>391</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,6 +21,9 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
       <widget class="QWidget" name="welcome">
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
@@ -151,7 +154,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>2</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="salary">
            <attribute name="title">
@@ -304,9 +307,6 @@
              </layout>
             </item>
            </layout>
-           <zorder>layoutWidget</zorder>
-           <zorder>staffID</zorder>
-           <zorder>staffID</zorder>
           </widget>
           <widget class="QWidget" name="admin_grade">
            <attribute name="title">
@@ -421,6 +421,77 @@
              </widget>
             </item>
            </layout>
+          </widget>
+          <widget class="QWidget" name="admin_bonus">
+           <attribute name="title">
+            <string>admin_bonus</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_11">
+            <item row="0" column="0" rowspan="5" colspan="2">
+             <widget class="QTableView" name="admin_bonus_View"/>
+            </item>
+            <item row="0" column="2">
+             <widget class="QPushButton" name="bonus_CommitButton">
+              <property name="text">
+               <string>Commit</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="bonus_CancelButton">
+              <property name="text">
+               <string>Cancel</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="bonus_AddButton">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QPushButton" name="bonus_DeleteButton">
+              <property name="text">
+               <string>Delete</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2">
+             <widget class="QRadioButton" name="bonus_ASCButton">
+              <property name="text">
+               <string>ASC</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="0">
+             <widget class="QComboBox" name="bonus_filter_comboBox"/>
+            </item>
+            <item row="5" column="1">
+             <widget class="QLineEdit" name="bonus_filter">
+              <property name="placeholderText">
+               <string>Keyword</string>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="2">
+             <widget class="QRadioButton" name="bonus_DESCButton">
+              <property name="text">
+               <string>DESC</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+           <zorder>bonus_AddButton</zorder>
+           <zorder>bonus_CommitButton</zorder>
+           <zorder>bonus_ASCButton</zorder>
+           <zorder>bonus_DESCButton</zorder>
+           <zorder>bonus_DeleteButton</zorder>
+           <zorder>bonus_filter_comboBox</zorder>
+           <zorder>bonus_filter</zorder>
+           <zorder>admin_bonus_View</zorder>
+           <zorder>bonus_CancelButton</zorder>
           </widget>
          </widget>
         </item>

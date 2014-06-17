@@ -50,6 +50,20 @@ private slots:
 
     void on_filter_editingFinished();
 
+    void on_bonus_CommitButton_clicked();
+
+    void on_bonus_CancelButton_clicked();
+
+    void on_bonus_AddButton_clicked();
+
+    void on_bonus_DeleteButton_clicked();
+
+    void on_bonus_ASCButton_clicked();
+
+    void on_bonus_DESCButton_clicked();
+
+    void on_bonus_filter_editingFinished();
+
 private:
     Ui::MySalary *ui;
     QSqlDatabase db;
@@ -60,6 +74,9 @@ private:
     QSqlQueryModel *model;
     QSqlTableModel *gradeModel;
     QSqlRelationalTableModel *staffModel;
+    QSqlRelationalTableModel *bonusModel;
+    QStringList staff_headers;
+    QStringList bonus_headers;
 };
 
 #endif // MYSALARY_H
