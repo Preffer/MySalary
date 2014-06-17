@@ -48,7 +48,7 @@ private slots:
 
     void on_staff_DESCButton_clicked();
 
-    void on_staffView_clicked(const QModelIndex &index);
+    void on_filter_editingFinished();
 
 private:
     Ui::MySalary *ui;

@@ -150,7 +150,7 @@ void MySalary::on_tabWidget_currentChanged(int index)
         }
 
         ui->filter_comboBox->addItems(headers);
-        qDebug() << headers;
+        //qDebug() << headers;
         break;
     }
 }
@@ -273,13 +273,12 @@ void MySalary::on_staff_DESCButton_clicked()
     staffModel->select();
 }
 
-void MySalary::on_staffView_clicked(const QModelIndex &index)
-{
-    /*QVariant value;
-    value = "ok";
-    if(index.column() == 0){
-        staffModel->setData(index, value);
-    }*/
 
-    qDebug() << index;
+void MySalary::on_filter_editingFinished()
+{
+    QString keyword = ui->filter->text();
+    QString filed = ui->filter_comboBox->currentText();
+    //qDebug() << keyword;
+    staffModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
+    staffModel->select();
 }
