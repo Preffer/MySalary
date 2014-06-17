@@ -37,7 +37,7 @@ void MySalary::on_loginButton_clicked()
         loginName = ui->username->text();
 
         QSqlQuery query;
-        query.prepare("SELECT `staffID`, `name`, `password` FROM staff WHERE loginName = :loginName");
+        query.prepare("SELECT `staff`.`staffID`, `name`, `password`, `privilege` FROM staff LEFT JOIN `admin` ON `staff`.`staffID` = `admin`.`staffID` WHERE `loginName` = :loginName");
         query.bindValue(":loginName", loginName);
         if(query.exec()){
             query.first();
@@ -60,6 +60,19 @@ void MySalary::on_loginButton_clicked()
                     staffID = query.value(index_staffID).toInt();
 
                     QMessageBox::information(this, "Success", "Login Success");
+                    int index_privilege = query.record().indexOf("privilege");
+                    int privilege = query.value(index_privilege).toInt();
+                    if(privilege < 60){
+                        ui->tabWidget->removeTab(3);
+                        ui->tabWidget->removeTab(4);
+                        ui->tabWidget->removeTab(5);
+                        ui->tabWidget->removeTab(6);
+                        ui->tabWidget->removeTab(7);
+                    } else{
+                        if(privilege < 100){
+                            ui->tabWidget->removeTab(7);
+                        }
+                    }
                     ui->stackedWidget->setCurrentIndex(1);
                     ui->tabWidget->setCurrentIndex(0);
                     this->on_tabWidget_currentChanged(0);
