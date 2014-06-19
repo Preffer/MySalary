@@ -154,7 +154,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>7</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="salary">
            <attribute name="title">
@@ -163,6 +163,19 @@
            <layout class="QGridLayout" name="gridLayout_5">
             <item row="0" column="0">
              <widget class="QTableView" name="salaryView"/>
+            </item>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="salaryChartButton">
+              <property name="minimumSize">
+               <size>
+                <width>462</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>ViewChart</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -589,7 +602,7 @@
      <x>0</x>
      <y>0</y>
      <width>520</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

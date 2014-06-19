@@ -14,7 +14,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mysalary.cpp
+        mysalary.cpp \
+    paintedWidget.cpp
 
 HEADERS  += mysalary.h
 

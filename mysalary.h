@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QtSql>
-
+#include <QPainter>
 
 namespace Ui {
 class MySalary;
@@ -80,6 +80,8 @@ private slots:
 
     void on_admin_filter_editingFinished();
 
+    void on_salaryChartButton_clicked();
+
 private:
     Ui::MySalary *ui;
     QSqlDatabase db;
@@ -97,4 +99,41 @@ private:
     QStringList admin_headers;
 };
 
+class PaintedWidget : public QWidget
+{
+
+public:
+    PaintedWidget();
+
+protected:
+    void paintEvent(QPaintEvent *event);
+};
+
+class cubicPoint
+{
+public:
+    QPointF point;
+    QPointF beforePoint;
+    QPointF afterPoint;
+
+    cubicPoint(){};
+    cubicPoint(int x, int y){
+        point = beforePoint = afterPoint = QPointF(x, y);
+    };
+    cubicPoint(QPointF xy){
+        point = beforePoint = afterPoint = QPointF(xy.x(), xy.y());
+    };
+    cubicPoint operator+ (cubicPoint & p2){
+        return cubicPoint((this->point.x() + p2.point.x()), (this->point.y() + p2.point.y()));
+    };
+    cubicPoint operator- (cubicPoint & p2){
+        return cubicPoint((this->point.x() - p2.point.x()), (this->point.y() - p2.point.y()));
+    };
+    cubicPoint operator* (int factor){
+        return cubicPoint((this->point.x() * factor), (this->point.y() * factor));
+    };
+    cubicPoint operator/ (int factor){
+        return cubicPoint((this->point.x() / factor), (this->point.y() / factor));
+    };
+};
 #endif // MYSALARY_H

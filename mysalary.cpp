@@ -4,6 +4,7 @@
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
+#include <QDebug>
 
 MySalary::MySalary(QWidget *parent) :
     QMainWindow(parent),
@@ -25,6 +26,8 @@ MySalary::~MySalary()
 
 void MySalary::on_loginButton_clicked()
 {
+    PaintedWidget paint;
+    paint.show();
     //init database
     if(!db.isOpen()){
         db = QSqlDatabase::addDatabase("QMYSQL");
@@ -534,3 +537,10 @@ void MySalary::on_admin_filter_editingFinished()
     adminModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
     adminModel->select();
 }
+
+void MySalary::on_salaryChartButton_clicked()
+{
+    PaintedWidget paint;
+    paint.show();
+}
+
