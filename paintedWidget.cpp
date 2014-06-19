@@ -5,6 +5,8 @@ PaintedWidget::PaintedWidget()
 {
     resize(600, 480);
     setWindowTitle("Chart");
+    QFont sans("Microsoft YaHei");
+    this->setFont(sans);
 }
 
 void PaintedWidget::paintEvent(QPaintEvent *event)

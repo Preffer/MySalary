@@ -84,6 +84,9 @@ private slots:
 
     void on_bonusChartButton_clicked();
 
+
+    void on_salaryChartButton_2_clicked();
+
 private:
     Ui::MySalary *ui;
     QSqlDatabase db;

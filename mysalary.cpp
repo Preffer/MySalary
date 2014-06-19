@@ -558,8 +558,25 @@ void MySalary::on_salaryChartButton_clicked()
 void MySalary::on_bonusChartButton_clicked()
 {
     QSqlQuery query;
-    query.prepare("SELECT `timestamp`, `effect`, `note` FROM bonus WHERE staffID = :staffID");
+    query.prepare("SELECT `timestamp`, `effect` FROM bonus WHERE staffID = :staffID");
     query.bindValue(":staffID", staffID);
+    query.exec();
+
+    QMap<QString, float> map;
+    while(query.next()){
+        map[query.value(0).toString()] = query.value(1).toFloat();
+    }
+    //qDebug() << map;
+    PaintedWidget *paint = new PaintedWidget();
+    paint->data = map;
+    paint->show();
+}
+
+
+void MySalary::on_salaryChartButton_2_clicked()
+{
+    QSqlQuery query;
+    query.prepare("SELECT `date`, SUM(salary) as sum FROM `salary` GROUP BY `date`");
     query.exec();
 
     QMap<QString, float> map;
