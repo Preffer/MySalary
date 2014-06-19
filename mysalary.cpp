@@ -11,6 +11,11 @@ MySalary::MySalary(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
+
+    QStringList drivers = QSqlDatabase::drivers();
+    if(!drivers.contains("QMYSQL", Qt::CaseInsensitive)){
+        QMessageBox::critical(this, "MySQL Driver Not Found", "MySQL Driver Not Found");
+    }
 }
 
 MySalary::~MySalary()
@@ -23,13 +28,15 @@ void MySalary::on_loginButton_clicked()
     //init database
     if(!db.isOpen()){
         db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName("localhost");
+        db.setHostName("10.202.82.90");
         db.setPort(3306);
         db.setDatabaseName("qt");
         db.setUserName("qt");
         db.setPassword("erzX9fBsYFyJMfKB");
         db.setConnectOptions("CLIENT_SSL=1; CLIENT_IGNORE_SPACE=1");
         db.open();
+    } else{
+        qDebug() << db.lastError().text();
     }
 
     //auth
