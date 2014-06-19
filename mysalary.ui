@@ -154,7 +154,7 @@
         <item row="0" column="0">
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="salary">
            <attribute name="title">
@@ -191,6 +191,13 @@
              <widget class="QTableView" name="bonusView">
               <property name="styleSheet">
                <string notr="true">width: 100%</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="bonusChartButton">
+              <property name="text">
+               <string>ViewChart</string>
               </property>
              </widget>
             </item>

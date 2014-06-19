@@ -82,6 +82,8 @@ private slots:
 
     void on_salaryChartButton_clicked();
 
+    void on_bonusChartButton_clicked();
+
 private:
     Ui::MySalary *ui;
     QSqlDatabase db;
@@ -104,6 +106,8 @@ class PaintedWidget : public QWidget
 
 public:
     PaintedWidget();
+    QMap<QString, float> data;
+    float max, min;
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -112,16 +116,16 @@ protected:
 class cubicPoint
 {
 public:
-    QPointF point;
-    QPointF beforePoint;
-    QPointF afterPoint;
+    QPoint point;
+    QPoint beforePoint;
+    QPoint afterPoint;
 
     cubicPoint(){};
     cubicPoint(int x, int y){
-        point = beforePoint = afterPoint = QPointF(x, y);
+        point = QPoint(x, y);
     };
-    cubicPoint(QPointF xy){
-        point = beforePoint = afterPoint = QPointF(xy.x(), xy.y());
+    cubicPoint(QPoint xy){
+        point = QPoint(xy.x(), xy.y());
     };
     cubicPoint operator+ (cubicPoint & p2){
         return cubicPoint((this->point.x() + p2.point.x()), (this->point.y() + p2.point.y()));

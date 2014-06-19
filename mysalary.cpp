@@ -26,8 +26,6 @@ MySalary::~MySalary()
 
 void MySalary::on_loginButton_clicked()
 {
-    PaintedWidget paint;
-    paint.show();
     //init database
     if(!db.isOpen()){
         db = QSqlDatabase::addDatabase("QMYSQL");
@@ -103,6 +101,7 @@ void MySalary::on_tabWidget_currentChanged(int index)
 {
     QSqlQuery query;
     QSqlQueryModel *model = new QSqlQueryModel();
+
     //qDebug() << index;
     switch(index){
     case 0:
@@ -540,7 +539,35 @@ void MySalary::on_admin_filter_editingFinished()
 
 void MySalary::on_salaryChartButton_clicked()
 {
-    PaintedWidget paint;
-    paint.show();
+    QSqlQuery query;
+    query.prepare("SELECT `date`, `salary` FROM salary WHERE staffID = :staffID");
+    query.bindValue(":staffID", staffID);
+    query.exec();
+
+    QMap<QString, float> map;
+    while(query.next()){
+        map[query.value(0).toString()] = query.value(1).toFloat();
+    }
+    //qDebug() << map;
+    PaintedWidget *paint = new PaintedWidget();
+    paint->data = map;
+    paint->show();
 }
 
+
+void MySalary::on_bonusChartButton_clicked()
+{
+    QSqlQuery query;
+    query.prepare("SELECT `timestamp`, `effect`, `note` FROM bonus WHERE staffID = :staffID");
+    query.bindValue(":staffID", staffID);
+    query.exec();
+
+    QMap<QString, float> map;
+    while(query.next()){
+        map[query.value(0).toString()] = query.value(1).toFloat();
+    }
+    //qDebug() << map;
+    PaintedWidget *paint = new PaintedWidget();
+    paint->data = map;
+    paint->show();
+}
