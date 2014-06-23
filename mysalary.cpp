@@ -1,3 +1,13 @@
+/**
+* @copyright 2012-2016, Zhejiang University
+* @version 1.0.0
+* @author <黄羽众 学号3120102663>
+*/
+/**
+* @file mysalary.cpp
+* @brief 企业工资管理系统
+* 版本历史
+* @date 2014-06-21*/
 #include "mysalary.h"
 #include "ui_mysalary.h"
 #include <QMessageBox>
@@ -23,7 +33,9 @@ MySalary::~MySalary()
 {
     delete ui;
 }
-
+/**
+* @brief  连接数据库，并运用数据库检查登陆用户信息 
+*/
 void MySalary::on_loginButton_clicked()
 {
     //init database
@@ -96,7 +108,9 @@ void MySalary::on_loginButton_clicked()
         }
     }
 }
-
+/**
+* @brief  根据登陆的不同权限显示工资情况 
+*/
 void MySalary::on_tabWidget_currentChanged(int index)
 {
     QSqlQuery query;
@@ -222,7 +236,9 @@ void MySalary::on_tabWidget_currentChanged(int index)
         break;
     }
 }
-
+/**
+* @brief  修改个人备注 
+*/
 void MySalary::on_infoCommitButton_clicked()
 {
     QSqlQuery query;
@@ -246,7 +262,9 @@ void MySalary::on_infoCommitButton_clicked()
         qDebug() << query.lastError();
     }
 }
-
+/**
+* @brief  管理员修改 gradeID：确认按钮 
+*/
 void MySalary::on_grade_CommitButton_clicked()
 {
     gradeModel->database().transaction();
@@ -257,18 +275,24 @@ void MySalary::on_grade_CommitButton_clicked()
         QMessageBox::warning( this, "Commit Error", gradeModel->lastError().text());
     }
 }
-
+/**
+* @brief  管理员修改 gradeID：取消按钮 
+*/
 void MySalary::on_grade_CancelButton_clicked()
 {
     gradeModel->revertAll();
 }
-
+/**
+* @brief  管理员修改 gradeID：增加新的一行 
+*/
 void MySalary::on_grade_AddButton_clicked()
 {
     int rowNum = gradeModel->rowCount();
     gradeModel->insertRow(rowNum); //index of the new row is equal to the rowCount
 }
-
+/**
+* @brief  管理员修改 gradeID：删除一行 
+*/
 void MySalary::on_grade_DeleteButton_clicked()
 {
     int curRow = ui->gradeView->currentIndex().row();
@@ -280,19 +304,25 @@ void MySalary::on_grade_DeleteButton_clicked()
     }
     else gradeModel->submitAll();
 }
-
+/**
+* @brief  grade升序排列 
+*/
 void MySalary::on_grade_ASCButton_clicked()
 {
     gradeModel->setSort(0,Qt::AscendingOrder);
     gradeModel->select();
 }
-
+/**
+* @brief  grade降序排列 
+*/
 void MySalary::on_grade_DESCButton_clicked()
 {
     gradeModel->setSort(0,Qt::DescendingOrder);
     gradeModel->select();
 }
-
+/**
+* @brief  管理员查询管理企业员工情报：确认按钮 
+*/
 void MySalary::on_staff_CommitButton_clicked()
 {
     staffModel->database().transaction();
@@ -303,18 +333,24 @@ void MySalary::on_staff_CommitButton_clicked()
         QMessageBox::warning( this, "Commit Error", staffModel->lastError().text());
     }
 }
-
+/**
+* @brief  管理员查询管理企业员工情报：取消按钮 
+*/
 void MySalary::on_staff_CancelButton_clicked()
 {
     staffModel->revertAll();
 }
-
+/**
+* @brief  管理员查询管理企业员工情报：增加新员工 
+*/
 void MySalary::on_staff_AddButton_clicked()
 {
     int rowNum = staffModel->rowCount();
     staffModel->insertRow(rowNum); //index of the new row is equal to the rowCount
 }
-
+/**
+* @brief  管理员查询管理企业员工情报：删除一个员工 
+*/
 void MySalary::on_staff_DeleteButton_clicked()
 {
     int curRow = ui->staffView->currentIndex().row();
@@ -326,14 +362,18 @@ void MySalary::on_staff_DeleteButton_clicked()
     }
     else staffModel->submitAll();
 }
-
+/**
+* @brief  管理员查询管理企业员工情报：升序查看 
+*/
 void MySalary::on_staff_ASCButton_clicked()
 {
     int flag = ui->filter_comboBox->currentIndex();
     staffModel->setSort(flag,Qt::AscendingOrder);
     staffModel->select();
 }
-
+/**
+* @brief  管理员查询管理企业员工情报：降序查看 
+*/
 void MySalary::on_staff_DESCButton_clicked()
 {
     int flag = ui->filter_comboBox->currentIndex();
@@ -341,7 +381,9 @@ void MySalary::on_staff_DESCButton_clicked()
     staffModel->select();
 }
 
-
+/**
+* @brief  管理员查询管理企业员工情报：修改完后及时显示 
+*/
 void MySalary::on_filter_editingFinished()
 {
     QString keyword = ui->filter->text();
@@ -350,7 +392,9 @@ void MySalary::on_filter_editingFinished()
     staffModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
     staffModel->select();
 }
-
+/**
+* @brief  财务人员奖惩功能：确认按钮 
+*/
 void MySalary::on_bonus_CommitButton_clicked()
 {
     bonusModel->database().transaction();
@@ -361,18 +405,24 @@ void MySalary::on_bonus_CommitButton_clicked()
         QMessageBox::warning( this, "Commit Error", bonusModel->lastError().text());
     }
 }
-
+/**
+* @brief  财务人员奖惩功能：取消按钮 
+*/
 void MySalary::on_bonus_CancelButton_clicked()
 {
     bonusModel->revertAll();
 }
-
+/**
+* @brief  财务人员奖惩功能：添加一行奖惩记录 
+*/
 void MySalary::on_bonus_AddButton_clicked()
 {
     int rowNum = bonusModel->rowCount();
     bonusModel->insertRow(rowNum); //index of the new row is equal to the rowCount
 }
-
+/**
+* @brief  财务人员奖惩功能：删除一行奖惩记录 
+*/
 void MySalary::on_bonus_DeleteButton_clicked()
 {
     int curRow = ui->staffView->currentIndex().row();
@@ -384,21 +434,27 @@ void MySalary::on_bonus_DeleteButton_clicked()
     }
     else bonusModel->submitAll();
 }
-
+/**
+* @brief  财务人员奖惩功能：奖惩记录升序排列显示 
+*/
 void MySalary::on_bonus_ASCButton_clicked()
 {
     int flag = ui->bonus_filter_comboBox->currentIndex();
     bonusModel->setSort(flag,Qt::AscendingOrder);
     bonusModel->select();
 }
-
+/**
+* @brief  财务人员奖惩功能：奖惩记录降序排列显示 
+*/
 void MySalary::on_bonus_DESCButton_clicked()
 {
     int flag = ui->bonus_filter_comboBox->currentIndex();
     bonusModel->setSort(flag,Qt::DescendingOrder);
     bonusModel->select();
 }
-
+/**
+* @brief  财务人员奖惩功能：修改完后及时显示 
+*/
 void MySalary::on_bonus_filter_editingFinished()
 {
     QString keyword = ui->bonus_filter->text();
@@ -407,7 +463,9 @@ void MySalary::on_bonus_filter_editingFinished()
     staffModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
     staffModel->select();
 }
-
+/**
+* @brief  企业管理：支付工资 
+*/
 void MySalary::on_admin_payButton_clicked()
 {
     QDate date = ui->admin_salary_dateEdit->date ();
@@ -479,7 +537,9 @@ void MySalary::on_admin_payButton_clicked()
         }
     }
 }
-
+/**
+* @brief  企业管理-管理人员管理  ：确认按钮 
+*/
 void MySalary::on_admin_CommitButton_clicked()
 {
     adminModel->database().transaction();
@@ -490,18 +550,24 @@ void MySalary::on_admin_CommitButton_clicked()
         QMessageBox::warning( this, "Commit Error", adminModel->lastError().text());
     }
 }
-
+/**
+* @brief  企业管理-管理人员管理 ：取消按钮 
+*/
 void MySalary::on_admin_CancelButton_clicked()
 {
     adminModel->revertAll();
 }
-
+/**
+* @brief  企业管理-管理人员管理 ：增加新的管理员 
+*/
 void MySalary::on_admin_AddButton_clicked()
 {
     int rowNum = adminModel->rowCount();
     adminModel->insertRow(rowNum); //index of the new row is equal to the rowCount
 }
-
+/**
+* @brief  企业管理-管理人员管理 ：删除一个管理员 
+*/
 void MySalary::on_admin_DeleteButton_clicked()
 {
     int curRow = ui->admin_View->currentIndex().row();
@@ -513,21 +579,27 @@ void MySalary::on_admin_DeleteButton_clicked()
     }
     else adminModel->submitAll();
 }
-
+/**
+* @brief  企业管理-管理人员管理 ：升序显示 
+*/
 void MySalary::on_admin_ASCButton_clicked()
 {
     int flag = ui->admin_filter_comboBox->currentIndex();
     adminModel->setSort(flag,Qt::AscendingOrder);
     adminModel->select();
 }
-
+/**
+* @brief  企业管理-管理人员管理 ：降序显示 
+*/
 void MySalary::on_admin_DESCButton_clicked()
 {
     int flag = ui->admin_filter_comboBox->currentIndex();
     adminModel->setSort(flag,Qt::DescendingOrder);
     adminModel->select();
 }
-
+/**
+* @brief  企业管理-管理人员管理 ：修改后及时显示 
+*/
 void MySalary::on_admin_filter_editingFinished()
 {
     QString keyword = ui->admin_filter->text();
@@ -536,7 +608,9 @@ void MySalary::on_admin_filter_editingFinished()
     adminModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
     adminModel->select();
 }
-
+/**
+* @brief  个人工资变化图 
+*/
 void MySalary::on_salaryChartButton_clicked()
 {
     QSqlQuery query;
@@ -554,7 +628,9 @@ void MySalary::on_salaryChartButton_clicked()
     paint->show();
 }
 
-
+/**
+* @brief  个人奖惩变化图 
+*/
 void MySalary::on_bonusChartButton_clicked()
 {
     QSqlQuery query;
@@ -572,7 +648,9 @@ void MySalary::on_bonusChartButton_clicked()
     paint->show();
 }
 
-
+/**
+* @brief  企业工资变化图 
+*/
 void MySalary::on_salaryChartButton_2_clicked()
 {
     QSqlQuery query;
