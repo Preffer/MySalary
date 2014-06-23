@@ -164,7 +164,7 @@
           </property>
           <widget class="QWidget" name="salary">
            <attribute name="title">
-            <string>salary</string>
+            <string>Salary</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_5">
             <item row="0" column="0">
@@ -196,7 +196,7 @@
             </font>
            </property>
            <attribute name="title">
-            <string>bonus</string>
+            <string>Bonus</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_10">
             <item row="0" column="0">
@@ -220,7 +220,7 @@
             <bool>true</bool>
            </property>
            <attribute name="title">
-            <string>info</string>
+            <string>Info</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_9">
             <item row="0" column="0">
@@ -232,7 +232,7 @@
                   <item>
                    <widget class="QLabel" name="label_staffID">
                     <property name="text">
-                     <string>staffID:</string>
+                     <string>StaffID:</string>
                     </property>
                    </widget>
                   </item>
@@ -250,7 +250,7 @@
                   <item>
                    <widget class="QLabel" name="label_name">
                     <property name="text">
-                     <string>name:</string>
+                     <string>Name:</string>
                     </property>
                    </widget>
                   </item>
@@ -268,7 +268,7 @@
                   <item>
                    <widget class="QLabel" name="label_grade">
                     <property name="text">
-                     <string>grade:</string>
+                     <string>Grade:</string>
                     </property>
                    </widget>
                   </item>
@@ -286,7 +286,7 @@
                   <item>
                    <widget class="QLabel" name="label_loginName">
                     <property name="text">
-                     <string>loginName:</string>
+                     <string>LoginName:</string>
                     </property>
                    </widget>
                   </item>
@@ -300,7 +300,7 @@
                   <item>
                    <widget class="QLabel" name="label_password_2">
                     <property name="text">
-                     <string>password:</string>
+                     <string>Password:</string>
                     </property>
                    </widget>
                   </item>
@@ -320,7 +320,7 @@
                 <item>
                  <widget class="QLabel" name="label_info">
                   <property name="text">
-                   <string>info:</string>
+                   <string>Info:</string>
                   </property>
                  </widget>
                 </item>
