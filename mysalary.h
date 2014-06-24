@@ -14,6 +14,13 @@
 #include <QMainWindow>
 #include <QtSql>
 #include <QPainter>
+#include <QMessageBox>
+#include <QSqlQueryModel>
+#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
+#include <QDebug>
+#include <QFileDialog>
+#include <QTextStream>
 
 namespace Ui {
 class MySalary;
@@ -25,10 +32,11 @@ class MySalary : public QMainWindow
 
 public:
     explicit MySalary(QWidget *parent = 0);
+    void saveToCSV(QString sql);
     ~MySalary();
 
 private slots:
-        
+
 /**
 * @brief  连接数据库，并运用数据库检查登陆用户信息 
 * @return 无 
@@ -42,7 +50,7 @@ private slots:
 * @param [in] 输入参数1 : 登陆用户的权限水平 
 * @return 无 
 * @note 暂无
-*/
+*
 */
     void on_tabWidget_currentChanged(int index);
     
@@ -243,6 +251,16 @@ private slots:
 * @note 金额为Y轴，时间为X轴 
 */
     void on_salaryChartButton_2_clicked();
+
+    void on_exportGradeButton_clicked();
+
+    void on_exportStaffButton_clicked();
+
+    void on_exportBonusButton_clicked();
+
+    void on_exportSalaryButton_clicked();
+
+    void on_exportAdminButton_clicked();
 
 private:
     Ui::MySalary *ui;

@@ -160,7 +160,7 @@
            </font>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>8</number>
           </property>
           <widget class="QWidget" name="salary">
            <attribute name="title">
@@ -613,6 +613,76 @@
              </widget>
             </item>
            </layout>
+          </widget>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>export_import</string>
+           </attribute>
+           <widget class="QPushButton" name="exportGradeButton">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>50</y>
+              <width>110</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>ExportGrade</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="exportStaffButton">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>100</y>
+              <width>110</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>ExportStaff</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="exportBonusButton">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>160</y>
+              <width>110</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>ExportBonus</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="exportSalaryButton">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>210</y>
+              <width>110</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>ExportSalary</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="exportAdminButton">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>250</y>
+              <width>110</width>
+              <height>30</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>ExportAdmin</string>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>

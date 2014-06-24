@@ -10,11 +10,7 @@
 * @date 2014-06-21*/
 #include "mysalary.h"
 #include "ui_mysalary.h"
-#include <QMessageBox>
-#include <QSqlQueryModel>
-#include <QSqlTableModel>
-#include <QSqlRelationalTableModel>
-#include <QDebug>
+
 
 MySalary::MySalary(QWidget *parent) :
     QMainWindow(parent),
@@ -665,4 +661,73 @@ void MySalary::on_salaryChartButton_2_clicked()
     PaintedWidget *paint = new PaintedWidget();
     paint->data = map;
     paint->show();
+}
+
+
+void MySalary::saveToCSV(QString sql){
+    QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "*.csv");
+
+    if(fileName.lastIndexOf(".csv") == -1){
+        fileName.append(".csv");
+    }
+    QSqlQuery query;
+    query.prepare(sql);
+    query.exec();
+    QSqlRecord record = query.record();
+
+    int fieldCount = record.count();
+    QStringList fields, results;
+    for(int i = 0; i < fieldCount; i++){
+        fields << record.fieldName(i);
+    }
+    results << fields.join(",");
+    int j = 0;
+    while(query.next()){
+        QStringList *rows = new QStringList;
+        for(j = 0; j < fieldCount; j++){
+            *rows << query.value(j).toString();
+        }
+        results << (*rows).join(",");
+        delete rows;
+    }
+    qDebug() << results.join("\n");
+
+    QFile file(fileName);
+    if(!file.open(QIODevice::Text | QIODevice::WriteOnly))
+    {
+        QMessageBox::warning(this, "Failed", "Opening file failed!");
+    } else
+    {
+        QTextStream stream(&file);
+        stream << results.join("\n");
+        file.close();
+        QMessageBox::information(this, "Success", "Save to CSV file success!");
+        qDebug() << "wrote file to " + fileName;
+    }
+}
+
+
+void MySalary::on_exportGradeButton_clicked()
+{
+    MySalary::saveToCSV("SELECT * FROM `grade`");
+}
+
+void MySalary::on_exportStaffButton_clicked()
+{
+    MySalary::saveToCSV("SELECT * FROM `staff`");
+}
+
+void MySalary::on_exportBonusButton_clicked()
+{
+    MySalary::saveToCSV("SELECT * FROM `bonus`");
+}
+
+void MySalary::on_exportSalaryButton_clicked()
+{
+    MySalary::saveToCSV("SELECT * FROM `salary`");
+}
+
+void MySalary::on_exportAdminButton_clicked()
+{
+    MySalary::saveToCSV("SELECT * FROM `admin`");
 }
