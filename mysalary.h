@@ -32,7 +32,8 @@ class MySalary : public QMainWindow
 
 public:
     explicit MySalary(QWidget *parent = 0);
-    void saveToCSV(QString sql);
+    void exportToCSV(QString sql);
+    void importFromCSV(QString sql);
     ~MySalary();
 
 private slots:
@@ -261,6 +262,16 @@ private slots:
     void on_exportSalaryButton_clicked();
 
     void on_exportAdminButton_clicked();
+
+    void on_importGradeButton_clicked();
+
+    void on_importStaffButton_clicked();
+
+    void on_importBonusButton_clicked();
+
+    void on_importSalaryButton_clicked();
+
+    void on_importAdminButton_clicked();
 
 private:
     Ui::MySalary *ui;

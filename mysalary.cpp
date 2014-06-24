@@ -664,9 +664,12 @@ void MySalary::on_salaryChartButton_2_clicked()
 }
 
 
-void MySalary::saveToCSV(QString sql){
+void MySalary::exportToCSV(QString sql){
     QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "*.csv");
 
+    if(fileName.isEmpty()){
+        return;
+    }
     if(fileName.lastIndexOf(".csv") == -1){
         fileName.append(".csv");
     }
@@ -693,7 +696,7 @@ void MySalary::saveToCSV(QString sql){
     qDebug() << results.join("\n");
 
     QFile file(fileName);
-    if(!file.open(QIODevice::Text | QIODevice::WriteOnly))
+    if(!file.open(QIODevice::WriteOnly))
     {
         QMessageBox::warning(this, "Failed", "Opening file failed!");
     } else
@@ -709,25 +712,88 @@ void MySalary::saveToCSV(QString sql){
 
 void MySalary::on_exportGradeButton_clicked()
 {
-    MySalary::saveToCSV("SELECT * FROM `grade`");
+    exportToCSV("SELECT * FROM `grade`");
 }
 
 void MySalary::on_exportStaffButton_clicked()
 {
-    MySalary::saveToCSV("SELECT * FROM `staff`");
+    exportToCSV("SELECT * FROM `staff`");
 }
 
 void MySalary::on_exportBonusButton_clicked()
 {
-    MySalary::saveToCSV("SELECT * FROM `bonus`");
+    exportToCSV("SELECT * FROM `bonus`");
 }
 
 void MySalary::on_exportSalaryButton_clicked()
 {
-    MySalary::saveToCSV("SELECT * FROM `salary`");
+    exportToCSV("SELECT * FROM `salary`");
 }
 
 void MySalary::on_exportAdminButton_clicked()
 {
-    MySalary::saveToCSV("SELECT * FROM `admin`");
+    exportToCSV("SELECT * FROM `admin`");
+}
+
+void MySalary::importFromCSV(QString sql){
+    QString fileName = QFileDialog::getOpenFileName(this, "Open File", "", "*.csv");
+    QFile file(fileName);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        QMessageBox::warning(this, "Failed", "Open file failed!");
+    } else
+    {
+        QTextStream stream(&file);
+
+        QSqlQuery query;
+        query.prepare(sql);
+
+        int tranStatus = 0;
+        db.transaction();
+        QString line = stream.readLine();
+        QStringList fields;
+
+        while(!(line = stream.readLine()).isNull()){
+            fields = line.split(",");
+            for(int i = 0; i < fields.size(); i++){
+                query.addBindValue(fields[i]);
+            }
+            if(!query.exec()){
+                tranStatus = 1;
+            }
+        }
+
+        if(tranStatus == 0){
+            db.commit();
+            QMessageBox::information(this, "Success", "Import Success!");
+        }else{
+            db.rollback();
+            QMessageBox::warning(this, "Failed", query.lastError().text());
+        }
+        file.close();
+    }
+}
+void MySalary::on_importGradeButton_clicked()
+{
+    importFromCSV("INSERT INTO `grade`(`gradeID`, `gradeName`, `baseSalary`) VALUES (?, ?, ?)");
+}
+
+void MySalary::on_importStaffButton_clicked()
+{
+    importFromCSV("INSERT INTO `staff`(`staffID`, `name`, `info`, `gradeID`, `loginName`, `password`) VALUES (?, ?, ?, ?, ?, ?)");
+}
+
+void MySalary::on_importBonusButton_clicked()
+{
+    importFromCSV("INSERT INTO `bonus`(`bonusID`, `staffID`, `effect`, `note`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
+}
+
+void MySalary::on_importSalaryButton_clicked()
+{
+    importFromCSV("INSERT INTO `salary`(`staffID`, `date`, `salary`) VALUES (?, ?, ?)");
+}
+
+void MySalary::on_importAdminButton_clicked()
+{
+    importFromCSV("INSERT INTO `admin`(`adminID`, `privilege`, `staffID`) VALUES (?, ?, ?)");
 }
