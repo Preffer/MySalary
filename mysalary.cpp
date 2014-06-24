@@ -44,14 +44,18 @@ void MySalary::on_loginButton_clicked()
         db.setPassword("erzX9fBsYFyJMfKB");
         db.setConnectOptions("CLIENT_SSL=1; CLIENT_IGNORE_SPACE=1");
         db.open();
-    } else{
-        qDebug() << db.lastError().text();
+        if(!db.isOpen()){
+            QMessageBox::critical(this, "Can not connect to MySQL Server", db.lastError().text());
+        }
     }
 
     //auth
     if(db.isOpen()){
         loginName = ui->username->text();
-
+        if(loginName.isEmpty()){
+            QMessageBox::warning(this, "Failed", "Please input your username!");
+            return;
+        }
         QSqlQuery query;
         query.prepare("SELECT `staff`.`staffID`, `name`, `password`, `privilege` FROM staff LEFT JOIN `admin` ON `staff`.`staffID` = `admin`.`staffID` WHERE `loginName` = :loginName");
         query.bindValue(":loginName", loginName);
@@ -100,7 +104,7 @@ void MySalary::on_loginButton_clicked()
                 QMessageBox::warning(this, "Failed", "Incorrect username/password");
             }
         }else{
-            qDebug() << query.lastError();
+            QMessageBox::warning(this, "Failed", query.lastError().text());
         }
     }
 }
@@ -153,7 +157,7 @@ void MySalary::on_tabWidget_currentChanged(int index)
             ui->new_loginName->setText(query.value(index_loginName).toString());
             //qDebug() << info;
         }else{
-            qDebug() << query.lastError();
+            QMessageBox::warning(this, "Failed", query.lastError().text());
         }
         break;
 
@@ -177,11 +181,14 @@ void MySalary::on_tabWidget_currentChanged(int index)
         //ui->staffView->hideColumn(5);
         ui->staffView->setItemDelegate(new QSqlRelationalDelegate());
 
+        staff_headers = QStringList();
         for(int i = 0; i < staffModel->columnCount(); i++){
             staff_headers << staffModel->headerData(i, Qt::Horizontal).toString();
         }
 
-        ui->filter_comboBox->addItems(staff_headers);
+        if(!ui->filter_comboBox->count()){
+            ui->filter_comboBox->addItems(staff_headers);
+        }
         //qDebug() << staff_headers;
         break;
 
@@ -195,11 +202,14 @@ void MySalary::on_tabWidget_currentChanged(int index)
         ui->admin_bonus_View->setModel(bonusModel);
         ui->admin_bonus_View->setItemDelegate(new QSqlRelationalDelegate());
 
+        bonus_headers = QStringList();
         for(int i = 0; i < bonusModel->columnCount(); i++){
             bonus_headers << bonusModel->headerData(i, Qt::Horizontal).toString();
         }
 
-        ui->bonus_filter_comboBox->addItems(bonus_headers);
+        if(!ui->bonus_filter_comboBox->count()){
+            ui->bonus_filter_comboBox->addItems(bonus_headers);
+        }
         //qDebug() << bonus_headers;
         break;
 
@@ -223,12 +233,14 @@ void MySalary::on_tabWidget_currentChanged(int index)
         ui->admin_View->setModel(adminModel);
         ui->admin_View->setItemDelegate(new QSqlRelationalDelegate());
 
+        admin_headers = QStringList();
+        //qDebug() << admin_headers;
         for(int i = 0; i < adminModel->columnCount(); i++){
             admin_headers << adminModel->headerData(i, Qt::Horizontal).toString();
         }
-
-        ui->admin_filter_comboBox->addItems(admin_headers);
-        //qDebug() << bonus_headers;
+        if(!ui->admin_filter_comboBox->count()){
+            ui->admin_filter_comboBox->addItems(admin_headers);
+        }
         break;
     }
 }
@@ -255,7 +267,7 @@ void MySalary::on_infoCommitButton_clicked()
         QMessageBox::information(this, "Success", "Commit Success");
         this->on_tabWidget_currentChanged(2);
     }else{
-        qDebug() << query.lastError();
+        QMessageBox::warning(this, "Failed", query.lastError().text());
     }
 }
 /**
@@ -456,8 +468,8 @@ void MySalary::on_bonus_filter_editingFinished()
     QString keyword = ui->bonus_filter->text();
     QString filed = ui->bonus_filter_comboBox->currentText();
     //qDebug() << keyword;
-    staffModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
-    staffModel->select();
+    bonusModel->setFilter(filed + " LIKE '%" + keyword + "%'"); //just where clause in SQL
+    bonusModel->select();
 }
 /**
 * @brief  企业管理：支付工资 
@@ -476,7 +488,7 @@ void MySalary::on_admin_payButton_clicked()
         bonusSUM = query.value(1).toDouble();
         //qDebug() << bonusSUM;
     } else{
-        qDebug() << query.lastError();
+        QMessageBox::warning(this, "Failed", query.lastError().text());
     }
     sql = "SELECT COUNT(*) AS count, SUM(baseSalary) AS sum FROM `staff` JOIN `grade` ON `grade`.`gradeID` = `staff`.`gradeID`";
     if(query.exec(sql)){
@@ -485,7 +497,7 @@ void MySalary::on_admin_payButton_clicked()
         commonSUM = query.value(1).toDouble();
         //qDebug() << commonSUM;
     } else{
-        qDebug() << query.lastError();
+        QMessageBox::warning(this, "Failed", query.lastError().text());
     }
     total = bonusSUM.toDouble() + commonSUM.toDouble();
     QString tip = "Salary statistic in " + date.toString("yyyy-MM") + "\n";
@@ -693,7 +705,7 @@ void MySalary::exportToCSV(QString sql){
         results << (*rows).join(",");
         delete rows;
     }
-    qDebug() << results.join("\n");
+    //qDebug() << results.join("\n");
 
     QFile file(fileName);
     if(!file.open(QIODevice::WriteOnly))
@@ -705,7 +717,7 @@ void MySalary::exportToCSV(QString sql){
         stream << results.join("\n");
         file.close();
         QMessageBox::information(this, "Success", "Save to CSV file success!");
-        qDebug() << "wrote file to " + fileName;
+        //qDebug() << "wrote file to " + fileName;
     }
 }
 
