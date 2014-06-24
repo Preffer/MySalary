@@ -9,9 +9,9 @@
 * @brief 企业工资管理系统
 * 版本历史
 * @date 2014-06-21*/
+
 #include "mysalary.h"
 #include "ui_mysalary.h"
-
 
 MySalary::MySalary(QWidget *parent) :
     QMainWindow(parent),
@@ -83,14 +83,17 @@ void MySalary::on_loginButton_clicked()
                     QMessageBox::information(this, "Success", "Login Success");
                     int index_privilege = query.record().indexOf("privilege");
                     int privilege = query.value(index_privilege).toInt();
-                    if(privilege < 60){
-                        ui->tabWidget->removeTab(3);
-                        ui->tabWidget->removeTab(4);
-                        ui->tabWidget->removeTab(5);
-                        ui->tabWidget->removeTab(6);
+                    if(privilege < 60 || !privilege){
+                        ui->tabWidget->removeTab(8);
                         ui->tabWidget->removeTab(7);
+                        ui->tabWidget->removeTab(6);
+                        ui->tabWidget->removeTab(5);
+                        ui->tabWidget->removeTab(4);
+                        ui->tabWidget->removeTab(3);
+
                     } else{
                         if(privilege < 100){
+                            ui->tabWidget->removeTab(8);
                             ui->tabWidget->removeTab(7);
                         }
                     }
@@ -632,6 +635,10 @@ void MySalary::on_salaryChartButton_clicked()
         map[query.value(0).toString()] = query.value(1).toFloat();
     }
     //qDebug() << map;
+    if(map.size()< 2){
+        QMessageBox::warning(this, "Failed", "You must receive two months of salary before you could view chart.");
+        return;
+    }
     PaintedWidget *paint = new PaintedWidget();
     paint->data = map;
     paint->show();
@@ -652,6 +659,10 @@ void MySalary::on_bonusChartButton_clicked()
         map[query.value(0).toString()] = query.value(1).toFloat();
     }
     //qDebug() << map;
+    if(map.size()< 2){
+        QMessageBox::warning(this, "Failed", "You must receive two times of bonus before you could view chart.");
+        return;
+    }
     PaintedWidget *paint = new PaintedWidget();
     paint->data = map;
     paint->show();
