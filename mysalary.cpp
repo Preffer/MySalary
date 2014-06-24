@@ -1,7 +1,8 @@
 /**
-* @copyright 2012-2016, Zhejiang University
+* @copyright 2014, Yuzo
 * @version 1.0.0
 * @author <黄羽众 学号3120102663>
+* @repo https://gitcafe.com/PillowSky/MySalary
 */
 /**
 * @file mysalary.cpp
