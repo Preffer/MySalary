@@ -18,7 +18,6 @@
 #include <QSqlQueryModel>
 #include <QSqlTableModel>
 #include <QSqlRelationalTableModel>
-#include <QDebug>
 #include <QFileDialog>
 #include <QTextStream>
 

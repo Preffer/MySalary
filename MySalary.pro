@@ -25,3 +25,28 @@ RESOURCES += \
     resource.qrc
 
 RC_FILE = logo.rc
+
+CONFIG += mobility
+MOBILITY =
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+OTHER_FILES += \
+    android/AndroidManifest.xml
+
+contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+    ANDROID_EXTRA_LIBS = /home/hyz/Desktop/MySalary/MySalary/../../../build2/build/libs/armeabi-v7a/libmariadb.so
+}
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../build2/build/libs/armeabi-v7a/release/ -lmariadbclient
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../build2/build/libs/armeabi-v7a/debug/ -lmariadbclient
+else:unix: LIBS += -L$$PWD/../../../build2/build/libs/armeabi-v7a/ -lmariadbclient
+
+INCLUDEPATH += $$PWD/../../../build2/build/libs/armeabi-v7a
+DEPENDPATH += $$PWD/../../../build2/build/libs/armeabi-v7a
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../build2/build/libs/armeabi-v7a/release/libmariadbclient.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../build2/build/libs/armeabi-v7a/debug/libmariadbclient.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$PWD/../../../build2/build/libs/armeabi-v7a/release/mariadbclient.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/../../../build2/build/libs/armeabi-v7a/debug/mariadbclient.lib
+else:unix: PRE_TARGETDEPS += $$PWD/../../../build2/build/libs/armeabi-v7a/libmariadbclient.a
